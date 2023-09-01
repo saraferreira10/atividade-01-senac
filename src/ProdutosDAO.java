@@ -31,7 +31,7 @@ public class ProdutosDAO {
     }
 
     public ArrayList<ProdutosDTO> listarProdutos() throws SQLException {
-        conn = new conectaDAO().connectDB();
+        conn = new conectaDAO().connectDB();    
         prep = conn.prepareStatement("SELECT * FROM produtos");
         resultset = prep.executeQuery();
         
@@ -45,6 +45,15 @@ public class ProdutosDAO {
         }
         
         return listagem;
+    }
+
+    void venderProduto(int id) throws SQLException {
+        conn = new conectaDAO().connectDB();
+        String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+        prep = conn.prepareStatement(sql);
+        prep.setInt(1, id);
+
+        prep.executeUpdate();
     }
 
 }
