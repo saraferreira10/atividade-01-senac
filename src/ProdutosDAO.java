@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutosDAO {
 
@@ -31,11 +32,11 @@ public class ProdutosDAO {
     }
 
     public ArrayList<ProdutosDTO> listarProdutos() throws SQLException {
-        conn = new conectaDAO().connectDB();    
+        conn = new conectaDAO().connectDB();
         prep = conn.prepareStatement("SELECT * FROM produtos");
         resultset = prep.executeQuery();
-        
-        while(resultset.next()){
+
+        while (resultset.next()) {
             ProdutosDTO produto = new ProdutosDTO();
             produto.setId(resultset.getInt("id"));
             produto.setNome(resultset.getString("nome"));
@@ -43,7 +44,7 @@ public class ProdutosDAO {
             produto.setStatus(resultset.getString("status"));
             listagem.add(produto);
         }
-        
+
         return listagem;
     }
 
@@ -56,4 +57,22 @@ public class ProdutosDAO {
         prep.executeUpdate();
     }
 
+    public List<ProdutosDTO> listarProdutosVendidos() throws SQLException {
+        List<ProdutosDTO> lista = new ArrayList<>();
+
+        conn = new conectaDAO().connectDB();
+        prep = conn.prepareStatement("SELECT * FROM produtos WHERE status = 'Vendido'");
+        resultset = prep.executeQuery();
+
+        while (resultset.next()) {
+            ProdutosDTO produto = new ProdutosDTO();
+            produto.setId(resultset.getInt("id"));
+            produto.setNome(resultset.getString("nome"));
+            produto.setValor(resultset.getInt("valor"));
+            produto.setStatus(resultset.getString("status"));
+            lista.add(produto);
+        }
+
+        return lista;
+    }
 }
