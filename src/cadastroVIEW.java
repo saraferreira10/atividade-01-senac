@@ -146,18 +146,22 @@ public class cadastroVIEW extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         try {
-            ProdutosDTO produto = new ProdutosDTO();
-            String nome = cadastroNome.getText();
-            String valor = cadastroValor.getText();
-            String status = "A Venda";
-            produto.setNome(nome);
-            produto.setValor(Integer.valueOf(valor));
-            produto.setStatus(status);
+            if (!emptyFields()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                String nome = cadastroNome.getText();
+                String valor = cadastroValor.getText();
+                String status = "A Venda";
+                produto.setNome(nome);
+                produto.setValor(Integer.valueOf(valor));
+                produto.setStatus(status);
 
-            ProdutosDAO produtodao = new ProdutosDAO();
-            produtodao.cadastrarProduto(produto);
+                ProdutosDAO produtodao = new ProdutosDAO();
+                produtodao.cadastrarProduto(produto);
 
-            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Campo NOME não pode ser nulo!");
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro: cadastro não realizado!");
         } catch (NumberFormatException ex) {
@@ -218,4 +222,8 @@ public class cadastroVIEW extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+
+    private boolean emptyFields() {
+        return cadastroNome.getText().trim().isEmpty();
+    }
 }
